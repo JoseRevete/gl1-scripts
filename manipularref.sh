@@ -14,7 +14,7 @@ NC='\e[0m'
 ayuda()
 {
  echo -e "${blue}MANIPULAR REFERENCIAS\nEste script tiene como funcion el imprimir direcciones previamente registradas de archivos, agregar referencias para archivos y eliminar referencias ya planteadas y dar permisos a un archivo al cual su direccion ya ha sido registrada.\nRecomendaciones:\n1. No agregar referencias a dispositivos\n2. No imprimir o eliminar referencias que no han sido registradas\n3. Usar unicamentes los flags suministraos a continuacion:${NC}"
- echo -e "flags:\n-i	Se encarga de imprimir la direccion del nombre de archivo suministrados\n\nSintasis: ./manipularref -i [nombre archivo]\n\n-ad	Se encarga de agregar una direccion del nombre de archivo suministrado\n\n	 Sintasis: ./manipular -ad [nombre archivo] [Direccion de archivo]\n\n-an	Se encarga de agregar una referencia para el nombre de archivo suministrado\n\n   Sintasis: ./manipularref -an [nombre archivo] [nombre de referencia de archivo]\n\n-r	Se encarga de eliminar una referencia ya agregada previamente con el nombre de archivo\n\n	Sintasis: ./manipularref -r [nombre archivo] [nombre de referencia de archivo]\n\n-p	Se encarga de dar permisos a un archivo al que previamente se le ha referenciado su direccion\n\n	Sintesis: ./manipularref.sh -p [numero de tres digitos de permisos] [nombre del archivo]\n\n Ahora, el numero de permisos depende lo del que se le quiera otorgar, el permiso de leer vale 4, el de escribir vale 2 y el de ejecutar vale 1, la suma de estos numeros son los permisos a dar al archivo. Deben ser dados tres digitos, el primer digito son los permisos de usuario, el segundo los permisos de grupos y el tercero el del resto; la forma correcta de dar los digitos es: 777 o 254, por ejemplo. Cada digito debe estar entre 0 y 7.\n\n-i (sin argumento)		Si se le pasa el flag -i sin argmento, devolverá las referencias registradas en el archivo		Sintasis: ./manipularref -i\n"
+ echo -e "flags:\n-i	Se encarga de imprimir la direccion del nombre de archivo suministrados\n\nSintasis: ./manipularref -i [nombre archivo]\n\n-ad	Se encarga de agregar una direccion del nombre de archivo suministrado\n\n	 Sintasis: ./manipular -ad [nombre archivo] [Direccion de archivo]\n\n-an	Se encarga de agregar una referencia para el nombre de archivo suministrado\n\n   Sintasis: ./manipularref -an [nombre archivo] [nombre de referencia de archivo]\n\n-r	Se encarga de eliminar una referencia ya agregada previamente con el nombre de archivo\n\n	Sintasis: ./manipularref -r [nombre archivo] [nombre de referencia de archivo]\n\n-p	Se encarga de dar permisos a un archivo al que previamente se le ha referenciado su direccion\n\n	Sintesis: ./manipularref.sh -p [numero de tres digitos de permisos] [nombre del archivo]\n\n Ahora, el numero de permisos depende lo del que se le quiera otorgar, el permiso de leer vale 4, el de escribir vale 2 y el de ejecutar vale 1, la suma de estos numeros son los permisos a dar al archivo. Deben ser dados tres digitos, el primer digito son los permisos de usuario, el segundo los permisos de grupos y el tercero el del resto; la forma correcta de dar los digitos es: 777 o 254, por ejemplo. Cada digito debe estar entre 0 y 7.\n\n-i (null)	Si se le pasa el flag -i sin argmento, devolverá las referencias registradas en el archivo\n\n	Sintasis: ./manipularref -i\n"
 }
 
 imprimirref()
@@ -85,11 +85,18 @@ agregarref() {
 					read -p "Indicame la referencia que deseas agregar para el archivo: " addrefarch
         	                        echo "$2: $3: $addrefarch" >> "$ref"
                 	                echo "El archivo $2 ha sido referenciado con exito";;
-				S|SI|Si|s|si|sI|y|Y|YES|Yes|yes|yEs|yES|YEs|YeS) echo "Error: la referencia que intenta agregar ya existe"
+				[Ss][Ii]|S|s) echo "Error: la referencia que intenta agregar ya existe"
 										exit;;
-                                n|no|No|NO|nO|Not|NOT|not|NOt|nOT|noT|NoT|nOt) read -p "Indicame la referencia que deseas agregar para el archivo: " addrefarch
+				[Yy][Ee][Ss]|Y|y) echo "Error: la referencia que intenta agregar ya existe"
+                                                                                exit;;
+
+                                [Nn][Oo][Tt]) read -p "Indicame la referencia que deseas agregar para el archivo: " addrefarch
                                               				       echo "$2: $3: $addrefarch" >> "$ref"
                                                                                echo "El archivo $2 ha sido referenciado con exito";;
+				[Nn][Oo]|N|n) read -p "Indicame la referencia que deseas agregar para el archivo: " addrefarch
+                                                                               echo "$2: $3: $addrefarch" >> "$ref"
+                                                                               echo "El archivo $2 ha sido referenciado con exito";;
+
                                      *) #se da una respuesta que no sea s o n
 					echo "Error: solo debe dar como respuesta valida s o n";;
 			esac;;
