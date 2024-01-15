@@ -3,8 +3,10 @@
 blue='\e[0;34m'
 NC='\e[0m'
 
+#Funcion para activar el modulo dado
 function activarmod
 {
+	#Verificar si el modulo esta desactivado o no
 	result=$(cat /proc/modules | grep $1)
         modulo=$(echo $result | awk '{print $1}')
         if [ "$modulo" == "$1" ] ; then
@@ -15,8 +17,10 @@ function activarmod
 	fi
 }
 
+#Funcion para activar el modulo dado
 function desactivarmod
 {
+	#Verificar si el modulo esta desactivado o no
 	result=$(cat /proc/modules | grep $1)
         modulo=$(echo $result | awk '{print $1}')
         if [ "$modulo" == "$1" ] ; then
@@ -27,12 +31,14 @@ function desactivarmod
         fi
 }
 
+#Funcion para explicar el script y dar ayuda
 function ayuda
 {
 	echo -e "${blue}MANIPULAR MODULOS\n\nEste script tiene la funcion de ayudarte a activar y desactivar los modulos de tu ordenador, empleandolo como un comando (ejecutandolo con flags o el nombre del modulo).${NC}"
 	echo -e "flags:\n-a    Se encarga de verificar si el modulo esta desactivado y, en ese caso, activarlo\n\nSintasis: ./manipularmodulos.sh -a [nombre modulo]\n\n-r    Se encarga de verificar si el modulo esta activado y, en ese caso, desactivarlo\n\nSintasis: ./manipularmodulos.sh -r [nombre modulo]\n\n-help    Se encarga de proporcionar informacion de como usar el script\n\nSintasis: ./manipularmodulos.sh -help\n\n[nombre modulo]    Se encarga proporcionar informacion acerca del modulo, sabiendo si esta cativado o desactivado\n\nSintasis: ./manipularmodulos.sh [nombre modulo]"
 }
 
+#Funcion para saber el estado de un modulo
 function infomodl
 {
 	result=$(cat /proc/modules | grep $1)
@@ -44,6 +50,7 @@ function infomodl
         fi
 
 }
+#Verificar si los parametros de entrada necesarios para cada caso estan dados
 if [ -n "$1" ] ; then
 	if [ -n "$2" ] ; then
 		case "$1" in
